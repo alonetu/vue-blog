@@ -1,7 +1,6 @@
-interface Result {
-  code?: number,
-  message?: string,
-  data?: []
+interface Result<T> {
+  code: number,
+  message: string,
+  data: Array<T>
 }
-
 export default Result

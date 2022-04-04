@@ -1,31 +1,30 @@
-import axios from 'axios'
-import Result from '../utils/result'
+import axios from "axios";
 
 // 设置axios默认请求地址
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : ''
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "/api" : "";
 
 // 请求超时时长
-axios.defaults.timeout = 3000
+axios.defaults.timeout = 3000;
 
 // 请求拦截器
 axios.interceptors.request.use(
-  config => {
-    return config
+  (config) => {
+    return config;
   },
-  err => {
-    return err
+  (err) => {
+    return err;
   }
-)
+);
 
 // 响应拦截器
 axios.interceptors.response.use(
-  res => {
-    return res.data
+  (res) => {
+    return res.data;
   },
-  err => {
-    return err
+  (err) => {
+    return err;
   }
-)
+);
 
 /**
  * @param {string} method 请求方式
@@ -34,24 +33,24 @@ axios.interceptors.response.use(
  * @param {*} headers
  */
 const serve = {
-  get(url = '', headers = {}): Promise<Result> {
+  get(url = "", headers = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      axios({ method: 'get', url, headers })
-        .then(res => resolve(res))
-        .catch(err => reject(err))
-    })
+      axios({ method: "get", url, headers })
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    });
   },
   post(
-    url = '',
+    url = "",
     data = null,
-    headers = { 'Content-Type': 'application/json' }
-  ): Promise<Result> {
+    headers = { "Content-Type": "application/json" }
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
-      axios({ method: 'post', url, headers, data })
-        .then(res => resolve(res))
-        .catch(err => reject(err))
-    })
-  }
-}
+      axios({ method: "post", url, headers, data })
+        .then((res) => resolve(res))
+        .catch((err) => reject(err));
+    });
+  },
+};
 
-export default serve
+export default serve;

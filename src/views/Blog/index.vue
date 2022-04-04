@@ -57,38 +57,54 @@ import { Search } from "@element-plus/icons-vue";
 import { onMounted, reactive, ref } from "vue";
 import moment from "moment";
 
+interface TableRow {
+  auth: string;
+  title: string;
+  intro: string;
+  createTime: string;
+  [key: string]: string; // 表示除了上述已知属性外还可能存在其他属性
+}
+
 const keyword = ref<string>("");
 const tableLoading = ref<boolean>(false);
-let blogList = reactive<Result>({});
-let result: Result = {};
+let blogList = reactive<Result<TableRow>>({
+  code: 0,
+  message: "",
+  data: [],
+});
+let result: Result<TableRow> = {
+  code: 0,
+  message: "",
+  data: [],
+};
 
 onMounted(() => {
   getAllBlogs();
 });
 
-const search = () => {
-  const auth = result.data?.filter(
-    (item) => item.auth.indexOf(keyword.value) !== -1
+const search = (): void => {
+  const auth: Array<TableRow> = result.data.filter(
+    (item: TableRow) => item.auth.indexOf(keyword.value) !== -1
   );
-  const createTime = result.data?.filter(
-    (item) => item.createTime.indexOf(keyword.value) !== -1
+  const createTime: Array<TableRow> = result.data.filter(
+    (item: TableRow) => item.createTime.indexOf(keyword.value) !== -1
   );
-  const title = result.data?.filter(
-    (item) => item.title.indexOf(keyword.value) !== -1
+  const title: Array<TableRow> = result.data.filter(
+    (item: TableRow) => item.title.indexOf(keyword.value) !== -1
   );
-  const intro = result.data?.filter(
-    (item) => item.intro.indexOf(keyword.value) !== -1
+  const intro: Array<TableRow> = result.data.filter(
+    (item: TableRow) => item.intro.indexOf(keyword.value) !== -1
   );
   const allResult = new Set([...auth, ...createTime, ...title, ...intro]);
   blogList.data = [];
   blogList.data = [...allResult];
 };
-const getAllBlogs = async () => {
+const getAllBlogs = async (): Promise<void> => {
   tableLoading.value = true;
   try {
     result = await API.getarticlelist();
     blogList.data = [...result.data];
-    blogList.data.forEach((item) => {
+    blogList.data.forEach((item: TableRow) => {
       item.createTime = moment(item.createTime).format("YYYY-MM-DD HH:mm:ss");
     });
   } catch (error) {
@@ -97,11 +113,11 @@ const getAllBlogs = async () => {
     tableLoading.value = false;
   }
 };
-const detail = (row: { id: unknown }) => {
+const detail = (row: { id: 0 }): void => {
   window.open(`#/detail/${row.id}`, "_blank");
 };
-const setHeighLight = (field) => {
-  let tableItem = field;
+const setHeighLight = (field: string): string => {
+  let tableItem: string = field;
   if (tableItem == null) {
     return tableItem;
   }
