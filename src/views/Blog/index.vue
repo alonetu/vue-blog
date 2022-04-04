@@ -12,7 +12,12 @@
       <el-button type="primary" @click="search">搜索</el-button>
     </div>
     <div class="blog-content">
-      <el-table :data="blogList.data" v-loading="tableLoading" border style="width: 100%">
+      <el-table
+        :data="blogList.data"
+        v-loading="tableLoading"
+        border
+        style="width: 100%"
+      >
         <el-table-column label="作者" width="180">
           <template v-slot="scope">
             <div v-html="setHeighLight(scope.row.auth)"></div>
@@ -53,9 +58,9 @@ import { onMounted, reactive, ref } from "vue";
 import moment from "moment";
 
 const keyword = ref<string>("");
+const tableLoading = ref<boolean>(false);
 let blogList = reactive<Result>({});
 let result: Result = {};
-const tableLoading = ref<boolean>(false)
 
 onMounted(() => {
   getAllBlogs();
@@ -77,10 +82,9 @@ const search = () => {
   const allResult = new Set([...auth, ...createTime, ...title, ...intro]);
   blogList.data = [];
   blogList.data = [...allResult];
-  console.log(blogList);
 };
 const getAllBlogs = async () => {
-  tableLoading.value = true
+  tableLoading.value = true;
   try {
     result = await API.getarticlelist();
     blogList.data = [...result.data];
@@ -90,11 +94,11 @@ const getAllBlogs = async () => {
   } catch (error) {
     console.log(error);
   } finally {
-    tableLoading.value = false
+    tableLoading.value = false;
   }
 };
 const detail = (row: { id: unknown }) => {
-  console.log(row.id);
+  window.open(`#/detail/${row.id}`, "_blank");
 };
 const setHeighLight = (field) => {
   let tableItem = field;
