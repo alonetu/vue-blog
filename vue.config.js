@@ -1,6 +1,6 @@
 module.exports = {
   publicPath: './',
-  outputDir: 'vue-blog',
+  outputDir: 'vueBlog',
   lintOnSave: false,
   devServer: {
     proxy: {

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 设置axios默认请求地址
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "/api" : "";
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "/api" : "/apiBlog";
 
 // 请求超时时长
 axios.defaults.timeout = 3000;
